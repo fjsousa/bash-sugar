@@ -10,6 +10,6 @@ function psql-puma-analytics() {
   echo "Tunneling into $TUNNEL_ENV"
   echo "PGPASSWORD size (should be > 0): " ${#PGPASSWORD}
 
-  eval "create-$TUNNEL_ENV-db-tunnel"
+  create-db-tunnel
   psql -h localhost -p $PSQL_PORT -U puma_analytics
 }
