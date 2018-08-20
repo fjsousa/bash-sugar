@@ -1,35 +1,11 @@
-Host uat
-  User flavio.sousa
-  Hostname bastion.fc-uat.us
-  ForwardAgent yes
-  AddKeysToAgent yes
-  UseKeychain yes
-  IdentityFile ~/.ssh/fc
-
-Host staging
-  User flavio.sousa
-  Hostname bastion.fc-staging.us
-  ForwardAgent yes
-  AddKeysToAgent yes
-  UseKeychain yes
-  IdentityFile ~/.ssh/fc
-
-Host prod
-  User flavio.sousa
-  Hostname bastion.fc-prod.us
-  ForwardAgent yes
-  AddKeysToAgent yes
-  UseKeychain yes
-  IdentityFile ~/.ssh/fc
-
 Host uat-kafka-tunnel
   User flavio.sousa
   HostName bastion.fc-uat.us
   IdentityFile ~/.ssh/fc
   LocalForward 2181 zookeeper.service.consul:2181
-  LocalForward 192.168.4.1:9092 kafka-3:9092
-  LocalForward 192.168.5.1:9092 kafka-4:9092
-  LocalForward 192.168.6.1:9092 kafka-5:9092
+  LocalForward 192.168.4.1:9092 kafka-6:9092
+  LocalForward 192.168.5.1:9092 kafka-7:9092
+  LocalForward 192.168.6.1:9092 kafka-8:9092
   ControlPath /tmp/ssh-uat-%r@%h:%pupd
 
 Host staging-kafka-tunnel
@@ -37,9 +13,11 @@ Host staging-kafka-tunnel
   HostName bastion.fc-staging.us
   IdentityFile ~/.ssh/fc
   LocalForward 2181 zookeeper.service.consul:2181
-  LocalForward 192.168.4.1:9092 kafka-3:9092
-  LocalForward 192.168.5.1:9092 kafka-4:9092
-  LocalForward 192.168.6.1:9092 kafka-5:9092
+  LocalForward 192.168.4.1:9092 kafka-6:9092
+  LocalForward 192.168.5.1:9092 kafka-7:9092
+  LocalForward 192.168.6.1:9092 kafka-8:9092
+  LocalForward 192.168.7.1:9092 kafka-9:9092
+  LocalForward 192.168.8.1:9092 kafka-10:9092
   ControlPath /tmp/ssh-staging-%r@%h:%pupd
 
 # us_investor; puma_analytics; loan_engine
@@ -53,6 +31,16 @@ Host uat-db-tunnel
   #%p is port
   ControlPath /tmp/ssh-db-%r@%h:%pupd
 
+Host uat-old-db-tunnel
+  User flavio.sousa
+  HostName bastion.fc-uat.us
+  LocalForward 9003 uat-db.cwlyrglxccn3.us-east-1.rds.amazonaws.com:5432
+  IdentityFile ~/.ssh/fc
+  #%r is username
+  #%h is host
+  #%p is port
+  ControlPath /tmp/ssh-db-old-uat%r@%h:%pupd
+
 Host staging-db-tunnel
   User flavio.sousa
   HostName bastion.fc-staging.us
@@ -62,3 +50,14 @@ Host staging-db-tunnel
   #%h is host
   #%p is port
   ControlPath /tmp/ssh-db-staging-%r@%h:%pupd
+
+Host staging-old-db-tunnel
+  User flavio.sousa
+  HostName bastion.fc-staging.us
+  LocalForward 9004 staging-db.cwlyrglxccn3.us-east-1.rds.amazonaws.com:5432
+  IdentityFile ~/.ssh/fc
+  #%r is username
+  #%h is host
+  #%p is port
+  ControlPath /tmp/ssh-db-staging-%r@%h:%pupd
+
